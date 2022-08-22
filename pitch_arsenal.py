@@ -7,6 +7,7 @@ from pybaseball import statcast_pitcher
 from pybaseball import playerid_lookup
 
 
+
 # Function to get table of a player's pitches and stats
 def get_pitch_arsenal(player_id):
     
@@ -23,9 +24,10 @@ def get_pitch_arsenal(player_id):
         'Changeup': 'CH',
         'Curveball': 'CU',
         'Knuckle Curve':'CU',
+        'Eephus': 'EE',
         'Intentional Ball': 'IB',
         'Pitch Out': 'PO',
-        'Eephus': 'EE'
+        'N/A': 'NA'
     }
 
     # Get summary stats for pitch arsenal
@@ -39,13 +41,53 @@ def get_pitch_arsenal(player_id):
     pitch_summary = pitch_summary[[list(pitch_summary.columns)[-1]] + list(pitch_summary.columns)[:-1]].drop(['pitcher'], axis=1)
     pitch_summary = pitch_summary.round(3)
 
-
     # Scrape html from pitcher's baseball savant page
     url = f"https://baseballsavant.mlb.com/savant-player/{player_id}?stats=statcast-r-pitching-mlb"
     soup = BeautifulSoup(requests.get(url).content, 'html5lib')
 
+    # Get dataframes from baseball-savant html
+    pitch_movement_data = get_pitch_movement(soup, player_id, pitch_lookup)
+    run_values_data = get_run_values(soup, player_id, pitch_lookup)
+    spin_axis_data = get_spin_axis(soup, player_id, pitch_lookup)
 
-    # Create pitch movement dataframe
+    # Merge tables together to create pitch arsenal df
+    pitch_arsenal = pd.merge(
+                pd.merge(
+                                # Join pitch_movement and run_values data
+                        pd.merge(pitch_movement_data[['pitch_id','hand','count',
+                                                    'vertical_movement','vertical_movement_vs_avg','vertical_movement_pct_vs_avg',
+                                                    'horizontal_movement','horizontal_movement_vs_avg','horizontal_movement_pct_vs_avg']], 
+                                run_values_data[['pitch_id','usage','rv_100','run_value',
+                                                'PA','BA','SLG','wOBA','xBA','xSLG','xwOBA',
+                                                'k_pct','put_away_pct','whiff_pct','hard_hit_pct']],
+                                on='pitch_id'),
+                        # And then join with spin_axis data
+                        spin_axis_data[['pitch_id','active_spin_pct','total_movement']],
+                        on='pitch_id',
+                        how='left'),
+                    # Finally, join with pitch summary data
+                    pitch_summary[['pitch_id','game_year','pitch_name','release_speed','effective_speed',
+                                'release_pos_x','release_pos_z','release_extension',
+                                'release_spin_rate','spin_axis','zone']],
+                    on='pitch_id',
+                    how='left')
+
+    # Filter out pitches with less than 3% usage
+    pitch_arsenal = pitch_arsenal[pitch_arsenal['usage'] >= 3]
+
+    # Re-order columns
+    pitch_arsenal = pitch_arsenal[['pitch_id','game_year','hand','pitch_name','count','usage',
+                                    'release_speed','effective_speed','release_pos_x','release_pos_z','release_extension',
+                                    'release_spin_rate','spin_axis','active_spin_pct','total_movement',
+                                    'vertical_movement','vertical_movement_vs_avg','vertical_movement_pct_vs_avg',
+                                    'horizontal_movement','horizontal_movement_vs_avg','horizontal_movement_pct_vs_avg',
+                                    'zone','rv_100','run_value','PA','BA','SLG','wOBA','xBA','xSLG','xwOBA',
+                                    'k_pct','put_away_pct','whiff_pct','hard_hit_pct']]
+    return(pitch_arsenal)
+
+
+# Function to retrieve pitch movement table
+def get_pitch_movement(soup, player_id, pitch_lookup):
     pitch_movement_data = []
     pitch_movement = soup.find_all("table", {"id": "pitchMovement"})[0].contents[3].contents
     for row in pitch_movement:
@@ -69,8 +111,11 @@ def get_pitch_arsenal(player_id):
                         'speed','vertical_movement','vertical_movement_vs_avg','vertical_movement_pct_vs_avg',
                         'horizontal_movement','horizontal_movement_vs_avg','horizontal_movement_pct_vs_avg']].apply(pd.to_numeric, errors='coerce')
 
+    return(pitch_movement_data)
 
-    # Create run value dataframe
+
+# Function to retrieve run values dataframe
+def get_run_values(soup, player_id, pitch_lookup):
     run_values_data = []
     run_values = soup.find_all("table", {"id": "runValues"})[0].contents[3].contents
     for row in run_values:
@@ -110,8 +155,11 @@ def get_pitch_arsenal(player_id):
                      'PA','run_value','usage','rv_100','BA','SLG','wOBA','xBA','xSLG','xwOBA',
                         'k_pct','put_away_pct','whiff_pct','hard_hit_pct']].apply(pd.to_numeric, errors='coerce')
 
+    return(run_values_data)
 
-    # Create spin axis dataframe
+
+# Function to retrieve spin axis dataframe
+def get_spin_axis(soup, player_id, pitch_lookup):
     spin_axis_data = []
     spin_axis = soup.find_all("table", {"id": "spinAxis"})[0].contents[3].contents
     for row in spin_axis:
@@ -138,44 +186,10 @@ def get_pitch_arsenal(player_id):
     spin_axis_data[['active_spin_pct','deviation','total_movement']] = spin_axis_data[[
                     'active_spin_pct','deviation','total_movement']].apply(pd.to_numeric, errors='coerce')
 
-
-    # Merge tables together to create pitch arsenal df
-    pitch_arsenal = pd.merge(
-                pd.merge(
-                                # Join pitch_movement and run_values data
-                        pd.merge(pitch_movement_data[['pitch_id','hand','count',
-                                                    'vertical_movement','vertical_movement_vs_avg','vertical_movement_pct_vs_avg',
-                                                    'horizontal_movement','horizontal_movement_vs_avg','horizontal_movement_pct_vs_avg']], 
-                                run_values_data[['pitch_id','usage','rv_100','run_value',
-                                                'PA','BA','SLG','wOBA','xBA','xSLG','xwOBA',
-                                                'k_pct','put_away_pct','whiff_pct','hard_hit_pct']],
-                                on='pitch_id'),
-                        # And then join with spin_axis data
-                        spin_axis_data[['pitch_id','active_spin_pct','total_movement']],
-                        on='pitch_id',
-                        how='left'),
-                    # Finally, join with pitch summary data
-                    pitch_summary[['pitch_id','game_year','pitch_name','release_speed','effective_speed',
-                                'release_pos_x','release_pos_z','release_extension',
-                                'release_spin_rate','spin_axis','zone']],
-                    on='pitch_id',
-                    how='left')
-
-    # Filter out pitches with less than 3% usage
-    pitch_arsenal = pitch_arsenal[pitch_arsenal['usage'] >= 3]
-
-    # Re-order columns
-    pitch_arsenal = pitch_arsenal[['pitch_id','game_year','hand','pitch_name','count','usage',
-                                    'release_speed','effective_speed','release_pos_x','release_pos_z','release_extension',
-                                    'release_spin_rate','spin_axis','active_spin_pct','total_movement',
-                                    'vertical_movement','vertical_movement_vs_avg','vertical_movement_pct_vs_avg',
-                                    'horizontal_movement','horizontal_movement_vs_avg','horizontal_movement_pct_vs_avg',
-                                    'zone','rv_100','run_value','PA','BA','SLG','wOBA','xBA','xSLG','xwOBA',
-                                    'k_pct','put_away_pct','whiff_pct','hard_hit_pct']]
-    return(pitch_arsenal)
+    return(spin_axis_data)
 
 
 if __name__ == "__main__":
 
-    pitch_arsenal = get_pitch_arsenal(642207)
+    pitch_arsenal = get_pitch_arsenal(434378)
     print()
