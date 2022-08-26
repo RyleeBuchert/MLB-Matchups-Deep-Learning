@@ -73,7 +73,7 @@ for item in os.scandir('data\\schedules'):
         
         cols = ['batter_id','PA','AB','H','Singles','Doubles','Triples','HR','RBI','R','BB','K']
         batter_boxscore = pd.DataFrame(batter_boxscore, columns=cols)
-        batter_boxscore.to_csv(f'data\\boxscores\\{game_id}_{status[0]}.csv')
+        batter_boxscore.to_csv(f'data\\boxscores\\batters\\{game_id}_{status[0]}.csv')
 
         count = 0
         pitcher_boxscore = []
@@ -83,7 +83,7 @@ for item in os.scandir('data\\schedules'):
                 continue
 
             pitcher_id = int(pitcher['personId'])
-            innings_pitched = inning_convert(pitcher['ip'])
+            innings_pitched = pitcher['ip']
 
             line = [pitcher_id, innings_pitched, pitcher['h'], pitcher['er'], pitcher['bb'],
                     pitcher['k'], pitcher['hr'], pitcher['p'], pitcher['s']]
@@ -92,9 +92,9 @@ for item in os.scandir('data\\schedules'):
             if innings_pitched:
                 pitcher_games[pitcher_id].append([f"{game_id}_{status[0]}", game_date])
 
-        cols = ['pitcher_id']
+        cols = ['pitcher_id','innings_pitched','hits','earned_runs','walks','strikeouts','homeruns','pitches','strikes']
         pitcher_boxscore = pd.DataFrame(pitcher_boxscore, columns=cols)
-        pitcher_boxscore.to_csv(f'data\\boxscores\\{game_id}_{status[0]}.csv')
+        pitcher_boxscore.to_csv(f'data\\boxscores\\pitchers\\{game_id}_{status[0]}.csv')
         
 
 # Save player game dictionaries
@@ -108,7 +108,7 @@ with open('data\\pitcher_games.json', 'w') as f:
 
 
 if __name__ == "__main__":
-
+    
     with open('data\\batter_games.json') as f:
         batter_games_dict = json.load(f)
 
