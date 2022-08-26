@@ -1,0 +1,6 @@
+,pitcher_id,innings_pitched,hits,earned_runs,walks,strikeouts,homeruns,pitches,strikes
+0,518516,5.0,5,3,2,5,1,90,59
+1,642203,1.0,2,1,1,2,0,22,20
+2,664092,1.0,1,0,0,2,0,15,9
+3,598287,1.0,0,0,0,3,0,11,9
+4,605525,1.0,0,0,0,0,0,10,7
