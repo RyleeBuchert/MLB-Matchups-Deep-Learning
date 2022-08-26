@@ -1,31 +1,31 @@
 statsapi_id,name,team_code,file_code,team_name,loc_name,short_name
-108,Los Angeles Angels,ana,ana,Angels,Anaheim,LA Angels
-109,Arizona Diamondbacks,ari,ari,D-backs,Phoenix,Arizona
-110,Baltimore Orioles,bal,bal,Orioles,Baltimore,Baltimore
-111,Boston Red Sox,bos,bos,Red Sox,Boston,Boston
-112,Chicago Cubs,chn,chc,Cubs,Chicago,Chi Cubs
-113,Cincinnati Reds,cin,cin,Reds,Cincinnati,Cincinnati
-114,Cleveland Guardians,cle,cle,Guardians,Cleveland,Cleveland
-115,Colorado Rockies,col,col,Rockies,Denver,Colorado
-116,Detroit Tigers,det,det,Tigers,Detroit,Detroit
-117,Houston Astros,hou,hou,Astros,Houston,Houston
-118,Kansas City Royals,kca,kc,Royals,Kansas City,Kansas City
-119,Los Angeles Dodgers,lan,la,Dodgers,Los Angeles,LA Dodgers
-120,Washington Nationals,was,was,Nationals,Washington,Washington
-121,New York Mets,nyn,nym,Mets,Flushing,NY Mets
-133,Oakland Athletics,oak,oak,Athletics,Oakland,Oakland
-134,Pittsburgh Pirates,pit,pit,Pirates,Pittsburgh,Pittsburgh
-135,San Diego Padres,sdn,sd,Padres,San Diego,San Diego
-136,Seattle Mariners,sea,sea,Mariners,Seattle,Seattle
-137,San Francisco Giants,sfn,sf,Giants,San Francisco,San Francisco
-138,St. Louis Cardinals,sln,stl,Cardinals,St. Louis,St. Louis
-139,Tampa Bay Rays,tba,tb,Rays,St. Petersburg,Tampa Bay
-140,Texas Rangers,tex,tex,Rangers,Arlington,Texas
-141,Toronto Blue Jays,tor,tor,Blue Jays,Toronto,Toronto
-142,Minnesota Twins,min,min,Twins,Minneapolis,Minnesota
-143,Philadelphia Phillies,phi,phi,Phillies,Philadelphia,Philadelphia
-144,Atlanta Braves,atl,atl,Braves,Atlanta,Atlanta
-145,Chicago White Sox,cha,cws,White Sox,Chicago,Chi White Sox
-146,Miami Marlins,mia,mia,Marlins,Miami,Miami
-147,New York Yankees,nya,nyy,Yankees,Bronx,NY Yankees
-158,Milwaukee Brewers,mil,mil,Brewers,Milwaukee,Milwaukee
+108,Los Angeles Angels,ana,LAA,Angels,Anaheim,LA Angels
+109,Arizona Diamondbacks,ari,ARI,D-backs,Phoenix,Arizona
+110,Baltimore Orioles,bal,BAL,Orioles,Baltimore,Baltimore
+111,Boston Red Sox,bos,BOS,Red Sox,Boston,Boston
+112,Chicago Cubs,chn,CHC,Cubs,Chicago,Chi Cubs
+113,Cincinnati Reds,cin,CIN,Reds,Cincinnati,Cincinnati
+114,Cleveland Guardians,cle,CLE,Guardians,Cleveland,Cleveland
+115,Colorado Rockies,col,COL,Rockies,Denver,Colorado
+116,Detroit Tigers,det,DET,Tigers,Detroit,Detroit
+117,Houston Astros,hou,HOU,Astros,Houston,Houston
+118,Kansas City Royals,kca,KCR,Royals,Kansas City,Kansas City
+119,Los Angeles Dodgers,lan,LAD,Dodgers,Los Angeles,LA Dodgers
+120,Washington Nationals,was,WSN,Nationals,Washington,Washington
+121,New York Mets,nyn,NYM,Mets,Flushing,NY Mets
+133,Oakland Athletics,oak,OAK,Athletics,Oakland,Oakland
+134,Pittsburgh Pirates,pit,PIT,Pirates,Pittsburgh,Pittsburgh
+135,San Diego Padres,sdn,SDP,Padres,San Diego,San Diego
+136,Seattle Mariners,sea,SEA,Mariners,Seattle,Seattle
+137,San Francisco Giants,sfn,SFG,Giants,San Francisco,San Francisco
+138,St. Louis Cardinals,sln,STL,Cardinals,St. Louis,St. Louis
+139,Tampa Bay Rays,tba,TBR,Rays,St. Petersburg,Tampa Bay
+140,Texas Rangers,tex,TEX,Rangers,Arlington,Texas
+141,Toronto Blue Jays,tor,TOR,Blue Jays,Toronto,Toronto
+142,Minnesota Twins,min,MIN,Twins,Minneapolis,Minnesota
+143,Philadelphia Phillies,phi,PHI,Phillies,Philadelphia,Philadelphia
+144,Atlanta Braves,atl,ATL,Braves,Atlanta,Atlanta
+145,Chicago White Sox,cha,CHW,White Sox,Chicago,Chi White Sox
+146,Miami Marlins,mia,MIA,Marlins,Miami,Miami
+147,New York Yankees,nya,NYY,Yankees,Bronx,NY Yankees
+158,Milwaukee Brewers,mil,MIL,Brewers,Milwaukee,Milwaukee
