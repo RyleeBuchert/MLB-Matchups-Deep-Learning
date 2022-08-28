@@ -42,15 +42,17 @@ for team_id in team_search['statsapi_id']:
             continue
         for game in schedule:
             if game['game_type'] == 'R':
+                date = game['game_date']
+                
                 if game['home_id'] == team_id:
                     home = 1
                     opp_id = game['away_id']
+                    game_code = "{}-{}".format(file_code, date)
                 else:
                     home = 0
                     opp_id = game['home_id']
+                    game_code = "{}-{}".format(team_search.query(f"statsapi_id == {opp_id}")['file_code'].values[0], date)
 
-                date = game['game_date']
-                game_code = "{}-{}".format(file_code, date)
                 game_record = [game['game_id'], game_code, date, game['venue_id'], opp_id, home]
                 season.append(game_record)
             else:
