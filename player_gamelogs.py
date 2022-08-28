@@ -41,15 +41,15 @@ def get_batter_gamelogs(player_id):
                 split_date = game_record[0].attrs['href'].split(".")[0][-9:-1]
                 game_record[0] = "{}-{}-{}".format(split_date[:4],split_date[4:6],split_date[6:8])
 
-                if game_record[2] == '@':
-                    game_record[2] = 'A'
-                else:
-                    game_record[2] = 'H'
-
                 game_record[1] = game_record[1].contents[0]
                 game_record[3] = game_record[3].contents[0]
 
-                game_record.append("{}-{}".format(game_record[1], game_record[0]))
+                if game_record[2] == '@':
+                    game_record[2] = 'A'
+                    game_record.append("{}-{}".format(game_record[3], game_record[0]))
+                else:
+                    game_record[2] = 'H'
+                    game_record.append("{}-{}".format(game_record[1], game_record[0]))
 
                 batting_log_year.append(game_record)
             
@@ -97,16 +97,16 @@ def get_pitcher_gamelogs(player_id):
 
                 split_date = game_record[0].attrs['href'].split(".")[0][-9:-1]
                 game_record[0] = "{}-{}-{}".format(split_date[:4],split_date[4:6],split_date[6:8])
-
-                if game_record[2] == '@':
-                    game_record[2] = 'A'
-                else:
-                    game_record[2] = 'H'
                     
                 game_record[1] = game_record[1].contents[0]
                 game_record[3] = game_record[3].contents[0]
 
-                game_record.append("{}-{}".format(game_record[1], game_record[0]))
+                if game_record[2] == '@':
+                    game_record[2] = 'A'
+                    game_record.append("{}-{}".format(game_record[3], game_record[0]))
+                else:
+                    game_record[2] = 'H'
+                    game_record.append("{}-{}".format(game_record[1], game_record[0]))
 
                 pitching_log_year.append(game_record)
 
