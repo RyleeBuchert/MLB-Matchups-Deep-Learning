@@ -47,6 +47,7 @@ def fix_code(code):
 
 # Get all plate appearances for 2015-2021 seasons
 for year in [2015,2016,2017,2018,2019,2020,2021]:
+    print(year)
     matchup_data = []
     for file in os.scandir(f"data\\retrosheet\\{year}"):
         f = open(file.path)
@@ -71,12 +72,19 @@ for year in [2015,2016,2017,2018,2019,2020,2021]:
             if parts[0] == "play":
                 # Get home/away and player ID's
                 batter = int(player_search.query(f"key_retro == '{parts[3]}'")['key_mlbam'])
-                batter_hand = batter_hands[f'{batter}']
                 batter_home = 0
+                try:
+                    batter_hand = batter_hands[f'{batter}']
+                except:
+                    batter_hand = 'NA'
+                
                 pitcher = int(player_search.query(f"key_retro == '{home_pitcher}'")['key_mlbam'])
-                pitcher_hand = pitcher_hands[f'{pitcher}']
                 pitcher_home = 1
-
+                try:
+                    pitcher_hand = pitcher_hands[f'{pitcher}']
+                except:
+                    pitcher_hand = 'NA'
+                
                 if parts[2] == "1":
                     batter_home = 1
                     pitcher = int(player_search.query(f"key_retro == '{away_pitcher}'")['key_mlbam'])
